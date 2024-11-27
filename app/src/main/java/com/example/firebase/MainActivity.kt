@@ -28,13 +28,28 @@ class MainActivity : AppCompatActivity() {
         firebaseAuth = Firebase.auth
 
         binding.btnLogin.setOnClickListener {
+
+            val email = binding.etEmail.text.toString()
+            val clave = binding.etPassword.text.toString()
+
             // Datos de prueba, reemplazar con los valores de los EditText
-            val email = "juancastro@gmail.com"
-            val clave = "123456"
+            //val email = "juancastro@gmail.com"
+            //val clave = "123456"
 
             // Validar conexión a Internet
             if (isInternetAvailable()) {
                 signIn(email, clave)
+            } else {
+                Toast.makeText(this, "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.btnCreateAccount.setOnClickListener {
+            val email = binding.etEmail.text.toString()
+            val clave = binding.etPassword.text.toString()
+
+            if (isInternetAvailable()) {
+                createAccount(email, clave)
             } else {
                 Toast.makeText(this, "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
             }
@@ -54,6 +69,19 @@ class MainActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Error en la autenticación: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun createAccount(email: String, clave: String) {
+        firebaseAuth.createUserWithEmailAndPassword(email, clave)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "Error al crear la cuenta.", Toast.LENGTH_SHORT).show()
+                }
             }
     }
 
