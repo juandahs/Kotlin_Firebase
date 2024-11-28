@@ -3,4 +3,5 @@
     <string name="CrearCuenta">Crear cuenta</string>
     <string name="IniciarSesion">Iniciar Sesión</string>
     <string name="firebaseTitle">¡Bienvenido! \n Conexión a Firebase</string>
+    <string name="avatar">Imagen de perfil</string>
 </resources>
